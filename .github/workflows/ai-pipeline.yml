@@ -15,7 +15,7 @@ jobs:
             -H "Authorization: Bearer $GROQ_API_KEY" \
             -H "Content-Type: application/json" \
             -d '{
-              "model": "llama3-8b-8192",
+              "model": "llama-3.3-70b-versatile",
               "messages": [{"role": "user", "content": "Say hello from GitHub Actions!"}]
             }')
           echo "$RESPONSE" 
