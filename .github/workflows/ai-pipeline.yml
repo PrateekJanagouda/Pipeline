@@ -1,0 +1,26 @@
+name: AI Pipeline Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-ai:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Groq AI
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          RESPONSE=$(curl -s https://api.groq.com/openai/v1/chat/completions \
+            -H "Authorization: Bearer $GROQ_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "model": "llama3-8b-8192",
+              "messages": [{"role": "user", "content": "Say hello from GitHub Actions!"}]
+            }')
+          
+          AI_TEXT=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])")
+          
+          echo "================================"
+          echo "🤖 AI says: $AI_TEXT"
+          echo "================================"
